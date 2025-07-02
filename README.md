@@ -21,3 +21,77 @@ This Terraform project sets up an AWS infrastructure for a grocery application, 
 3. **AWS Key Pair**: An SSH key pair named 'jerome-aws-frankfurt' in the 'eu-central-1' region. Create it in the AWS Management Console (EC2 > Key Pairs) or via Terraform.
 4. **Private Key**: The private key file (e.g., 'jerome-aws-frankfurt.pem') for SSH access to the EC2 instance.
 
+## Available Implementations
+
+### ✅ Terraform
+
+Terraform scripts provision the infrastructure.
+
+#### Prerequisites
+- Terraform `>= 1.2.0`
+- AWS CLI with configured credentials
+- SSH Key Pair: `jerome-aws-frankfurt`
+
+#### Usage
+```bash
+terraform init
+terraform apply
+```
+
+---
+
+### ✅ AWS CDK (Java)
+
+An equivalent infrastructure setup using **AWS CDK with Java** (via Maven project).
+
+#### CDK Stack Overview
+- VPC with 3 subnets (1 public, 2 private)
+- EC2 in public subnet
+- RDS in private subnets
+- Output EC2 public IP
+
+#### Prerequisites
+- **Java 11+**
+- **Maven**
+- **AWS CLI** configured
+- **CDK CLI** (`npm install -g aws-cdk`)
+- AWS SSH key pair: `jerome-aws-frankfurt`
+
+#### Setup Instructions
+
+1. **Create Maven Project** (if not already initialized):
+```bash
+cdk init app --language java
+```
+
+2. **Install dependencies**:
+Add the following to `pom.xml`:
+```xml
+<dependency>
+  <groupId>software.amazon.awscdk</groupId>
+  <artifactId>aws-ec2</artifactId>
+  <version>2.154.0</version>
+</dependency>
+<dependency>
+  <groupId>software.amazon.awscdk</groupId>
+  <artifactId>aws-rds</artifactId>
+  <version>2.154.0</version>
+</dependency>
+```
+
+3. **Build and Deploy**
+```bash
+mvn compile
+cdk synth
+cdk deploy
+```
+
+#### Project Structure (CDK Java)
+```
+grocery-app-cdk/
+├── src/
+│   └── main/java/com/myorg/
+│       └── GroceryAppStack.java
+├── pom.xml
+├── cdk.json
+```
